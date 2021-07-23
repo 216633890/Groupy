@@ -36,6 +36,7 @@ namespace Groupy.Controllers
             String AccessKey = "demo";
             String UserIP = "2607:f1c0:100f:f000::2f4";
             var loc = CityStateCountByIp(UserIP);
+
             //String UserIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (string.IsNullOrEmpty(UserIP))
             {
