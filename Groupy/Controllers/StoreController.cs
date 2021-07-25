@@ -14,7 +14,7 @@ namespace Groupy.Controllers
         public ActionResult Index()
         {
             var categories = storeDB.Categories.ToList();
-
+            
             return View(categories);
         }
         public ActionResult Browse(string category)

@@ -33,15 +33,24 @@ namespace Groupy.Controllers
                 }
                 else
                 {
+                    FraudCheck fraudCheck = new FraudCheck();
+
                     order.Username = User.Identity.Name;
                     order.OrderDate = DateTime.Now;
-                    // order location
+                    order.OrderCountry = fraudCheck.GetCountry();
 
-                    storeDB.Orders.Add(order);
-                    storeDB.SaveChanges();
+                    //storeDB.Orders.Add(order);
+                    //storeDB.SaveChanges();
+
+                    //Start credit card fruad checks
+                    if (!fraudCheck.IsValidTrans(order))
+                    {
+                        //logout
+                        return RedirectToAction("AutoLogOff", "Account");
+                    }
 
                     var cart = ShoppingCart.GetCart(this.HttpContext);
-                    // CCFDS
+
                     cart.CreateOrder(order);
 
                     return RedirectToAction("Complete",
