@@ -128,8 +128,9 @@ namespace Groupy.Models
             }
 
             order.Total = orderTotal;
+            order.IsSuccess = 1;
 
-
+            storeDB.Orders.Add(order);
             storeDB.SaveChanges();
 
             EmptyCart();

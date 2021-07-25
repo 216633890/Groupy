@@ -78,6 +78,7 @@ namespace Groupy.Migrations
                 c => new
                     {
                         OrderId = c.Int(nullable: false, identity: true),
+                        IsSuccess = c.Int(),
                         Username = c.String(),
                         FirstName = c.String(),
                         LastName = c.String(),
@@ -90,7 +91,8 @@ namespace Groupy.Migrations
                         Email = c.String(),
                         Total = c.Decimal(nullable: false, precision: 18, scale: 2),
                         OrderDate = c.DateTime(nullable: false),
-                    })
+                        OrderCountry = c.String(),
+                })
                 .PrimaryKey(t => t.OrderId);
             
         }

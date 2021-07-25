@@ -31,49 +31,7 @@ namespace Groupy.Controllers
             // Associate shopping cart items with logged-in user
             var cart = ShoppingCart.GetCart(this.HttpContext);
             cart.MigrateCart(Email);
-            Session[ShoppingCart.CartSessionKey] = Email;
-
-            String AccessKey = "demo";
-            String UserIP = "2607:f1c0:100f:f000::2f4";
-            var loc = CityStateCountByIp(UserIP);
-
-            //String UserIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(UserIP))
-            {
-                UserIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            }
-
-            string url = "https://api.ip2location.com/v2/?ip=" + UserIP.ToString() + "&key=" + AccessKey.ToString() + "&package=WS2&addon=continent";
-            WebClient client = new WebClient();
-            string jsonstring = client.DownloadString(url);
-            dynamic dynObj = JsonConvert.DeserializeObject(jsonstring);
-            System.Web.HttpContext.Current.Session["UserCountryCode"] = dynObj.country_code;
-        }
-
-        public static string CityStateCountByIp(string IP)
-        {
-            //var url = "http://freegeoip.net/json/" + IP;
-            var url = "http://freegeoip.net/json/" + IP;
-            //string url = "http://api.ipstack.com/" + IP + "?access_key=[KEY]";
-            var request = System.Net.WebRequest.Create(url);
-
-            using (WebResponse wrs = request.GetResponse())
-            {
-                using (Stream stream = wrs.GetResponseStream())
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        string json = reader.ReadToEnd();
-                        var obj = JObject.Parse(json);
-                        string City = (string)obj["city"];
-                        string Country = (string)obj["region_name"];
-                        string CountryCode = (string)obj["country_code"];
-
-                        return (CountryCode + " - " + Country + "," + City);
-                    }
-                }
-            }
-            return "";
+            Session[ShoppingCart.CartSessionKey] = Email; 
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -438,6 +396,12 @@ namespace Groupy.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+
+        public ActionResult AutoLogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login");
         }
 
         //

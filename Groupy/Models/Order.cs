@@ -14,7 +14,11 @@ namespace Groupy.Models
         [ScaffoldColumn(false)]
         public int OrderId { get; set; }
         [ScaffoldColumn(false)]
+        public int IsSuccess { get; set; }
+        [ScaffoldColumn(false)]
         public System.DateTime OrderDate { get; set; }
+        [ScaffoldColumn(false)]
+        public string OrderCountry { get; set; }
         [ScaffoldColumn(false)]
         public string Username { get; set; }
         [Required(ErrorMessage = "First Name is required")]
