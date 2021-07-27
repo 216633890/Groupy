@@ -48,7 +48,6 @@ namespace Groupy.Controllers
                     {
                         if (Session["IsVerified"] != "Y")
                         {
-                            //order.IsVerified = 1;
                             Session["IsVerified"] = "Y";
 
                             return RedirectToAction("AutoLogOff", "Account");

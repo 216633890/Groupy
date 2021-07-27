@@ -29,7 +29,7 @@ namespace Groupy.Models
             System.Web.HttpContext.Current.Session["UserCountryCode"] = dynObj.country_code;
             c_code = dynObj.country_code.ToString();
 
-            return "SA";
+            return c_code;
         }
 
         public bool IsValidTrans(Order order, List<Cart> items)
