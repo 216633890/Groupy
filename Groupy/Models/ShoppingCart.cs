@@ -124,12 +124,11 @@ namespace Groupy.Models
                 orderTotal += (item.Count * item.Item.Price);
 
                 storeDB.OrderDetails.Add(orderDetail);
-
             }
 
             order.Total = orderTotal;
             order.IsSuccess = 1;
-
+            
             storeDB.Orders.Add(order);
             storeDB.SaveChanges();
 

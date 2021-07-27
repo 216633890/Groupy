@@ -29,14 +29,15 @@ namespace Groupy.Models
             System.Web.HttpContext.Current.Session["UserCountryCode"] = dynObj.country_code;
             c_code = dynObj.country_code.ToString();
 
-            return c_code;
+            return "SA";
         }
 
-        public bool IsValidTrans(Order order)
+        public bool IsValidTrans(Order order, List<Cart> items)
         {
             bool res = false;
             string previousOrder;
-            int i = 0;
+            int invalid=0,invalidItems=0,itemsTot=0;
+            var od = order.OrderDetails;
 
             using (var sdb = new GroupyEntities())
             {
@@ -46,16 +47,28 @@ namespace Groupy.Models
                                         select c.Username).First();
             }
 
+            foreach (var item in items)
+            {
+                if (!IsKnownPurchaseItem(order.Username, item.ItemId))
+                {
+                    invalidItems++;
+                }
+                itemsTot++;
+            }
+
             if (!string.IsNullOrEmpty(previousOrder)) {
                 if (!IsCountryMatchPreviousOrder(order.Username, order.OrderCountry)) {
-                    i++;
+                    invalid = invalid + 2;
                 }
                 if (!IsKnownPurchaseTimeRage(order.Username, order.OrderDate)) {
-                    i++;
+                    invalid++;
+                }
+                if (invalidItems>itemsTot/2) {
+                    invalid++;
                 }
             }
 
-            if (i<=1) {
+            if (invalid<3) {
                 res = true;
             }
 
@@ -99,6 +112,30 @@ namespace Groupy.Models
                 && int.Parse(orderdate.ToString("HH")) <= int.Parse(previousOrderTime.ToString("HH")) + 3)
             {
                 res = true;
+            }
+
+            return res;
+        }
+
+        public bool IsKnownPurchaseItem(string username, int itemId)
+        {
+            bool res = false;
+            List<int> previousOrdersItem;
+
+            using (var sdb = new GroupyEntities())
+            {
+                previousOrdersItem = (from od in sdb.OrderDetails
+                                        join o in sdb.Orders on od.OrderId equals o.OrderId
+                                        where o.Username == username && o.IsSuccess == 1
+                                        select od.ItemId).ToList();
+            }
+
+            foreach (var c in previousOrdersItem)
+            {
+                if (c == itemId)
+                {
+                    res = true;
+                }
             }
 
             return res;
