@@ -17,6 +17,13 @@ namespace Groupy.Controllers
             
             return View(categories);
         }
+        //[ChildActionOnly]
+        //public ActionResult CategoryMenu()
+        //{
+        //    var categories = storeDB.Categories.ToList();
+        //    return PartialView(categories);
+
+        //}
         public ActionResult Browse(string category)
         {
             var categoryModel = storeDB.Categories.Include("Items").Single(c => c.Name == category);

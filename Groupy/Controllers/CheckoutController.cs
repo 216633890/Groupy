@@ -39,17 +39,21 @@ namespace Groupy.Controllers
                     order.OrderDate = DateTime.Now;
                     order.OrderCountry = fraudCheck.GetCountry();
 
-                    //storeDB.Orders.Add(order);
-                    //storeDB.SaveChanges();
-
-                    //Start credit card fruad checks
-                    if (!fraudCheck.IsValidTrans(order))
-                    {
-                        //logout
-                        return RedirectToAction("AutoLogOff", "Account");
-                    }
-
                     var cart = ShoppingCart.GetCart(this.HttpContext);
+                    var scid = cart.GetCartId(this.HttpContext);
+
+                    var itemIds = storeDB.Carts.Where(c => c.CartId == scid).ToList();
+
+                    if (!fraudCheck.IsValidTrans(order, itemIds))
+                    {
+                        if (Session["IsVerified"] != "Y")
+                        {
+                            //order.IsVerified = 1;
+                            Session["IsVerified"] = "Y";
+
+                            return RedirectToAction("AutoLogOff", "Account");
+                        }
+                    }
 
                     cart.CreateOrder(order);
 
