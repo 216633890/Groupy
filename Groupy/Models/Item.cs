@@ -21,12 +21,13 @@ namespace Groupy.Models
         [StringLength(160)]
         public string Title { get; set; }
         [Required(ErrorMessage = "An item price is required")]
-        [Range(0.1,100,ErrorMessage ="Price must be between 0.1 and 100")]
+        //[Range(0.1,100,ErrorMessage ="Price must be between 0.1 and 100000")]
         public decimal Price { get; set; }
         [DisplayName("Item Art URL")]
         [StringLength(1024)]
         public string ItemArtUrl { get; set; }
         public virtual Category Category { get; set; }
         public virtual Producer Producer { get; set; }
+        public virtual List<OrderDetail> OrderDetails { get; set; }
     }
 }

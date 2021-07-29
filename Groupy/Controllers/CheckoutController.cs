@@ -33,15 +33,28 @@ namespace Groupy.Controllers
                 }
                 else
                 {
+                    FraudCheck fraudCheck = new FraudCheck();
+
                     order.Username = User.Identity.Name;
                     order.OrderDate = DateTime.Now;
-                    // order location
-
-                    storeDB.Orders.Add(order);
-                    storeDB.SaveChanges();
+                    order.OrderCountry = fraudCheck.GetCountry();
 
                     var cart = ShoppingCart.GetCart(this.HttpContext);
-                    // CCFDS
+
+                    var scid = cart.GetCartId(this.HttpContext);
+
+                    var itemIds = storeDB.Carts.Where(c => c.CartId == scid).ToList();
+
+                    if (!fraudCheck.IsValidTrans(order, itemIds))
+                    {
+                        if (Session["IsVerified"] != "Y")
+                        {
+                            Session["IsVerified"] = "Y";
+
+                            return RedirectToAction("AutoLogOff", "Account");
+                        }
+                    }
+
                     cart.CreateOrder(order);
 
                     return RedirectToAction("Complete",
@@ -62,6 +75,8 @@ namespace Groupy.Controllers
 
             if (isValid)
             {
+                Session["IsVerified"] = "N";
+
                 return View(id);
             }
             else

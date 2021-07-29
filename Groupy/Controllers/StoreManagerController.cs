@@ -90,7 +90,8 @@ namespace Groupy.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(item).State = EntityState.Modified;
+                db.Entry(item).State = EntityState.Added;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
