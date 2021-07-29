@@ -43,5 +43,17 @@
         <span class="fa fa-chevron-right"></span>
     </a>
 
+            @String.Format("{0:F}", item.Price)
+            <p class="button1">
+
+                @Html.ActionLink("Add to cart", "AddToCart",
+        "ShoppingCart", new { id = item.ItemId }, "")
+            </p>
+        </li>
+
+
+
+    }
+
 
 </div>
