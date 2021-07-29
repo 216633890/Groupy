@@ -15,7 +15,8 @@ namespace Groupy.Models
         {
             string c_code;
             String AccessKey = "demo";
-            String UserIP = "2607:f1c0:100f:f000::2f4";
+            //String UserIP = "2607:f1c0:100f:f000::2f4";
+            String UserIP = "102.67.158.120";
             //String UserIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (string.IsNullOrEmpty(UserIP))
             {
@@ -42,9 +43,9 @@ namespace Groupy.Models
             using (var sdb = new GroupyEntities())
             {
                 previousOrder = (from c in sdb.Orders
-                                        where c.Username == order.Username && c.IsSuccess == 1
-                                        orderby c.OrderDate descending
-                                        select c.Username).First();
+                                 where c.Username == order.Username && c.IsSuccess == 1
+                                 orderby c.OrderDate descending
+                                 select c.Username).DefaultIfEmpty("NEW").First();
             }
 
             foreach (var item in items)
@@ -56,7 +57,7 @@ namespace Groupy.Models
                 itemsTot++;
             }
 
-            if (!string.IsNullOrEmpty(previousOrder)) {
+            if (!(previousOrder=="NEW")) {
                 if (!IsCountryMatchPreviousOrder(order.Username, order.OrderCountry)) {
                     invalid = invalid + 2;
                 }
