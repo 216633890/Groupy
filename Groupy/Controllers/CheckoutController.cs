@@ -40,6 +40,7 @@ namespace Groupy.Controllers
                     order.OrderCountry = fraudCheck.GetCountry();
 
                     var cart = ShoppingCart.GetCart(this.HttpContext);
+
                     var scid = cart.GetCartId(this.HttpContext);
 
                     var itemIds = storeDB.Carts.Where(c => c.CartId == scid).ToList();
@@ -74,6 +75,8 @@ namespace Groupy.Controllers
 
             if (isValid)
             {
+                Session["IsVerified"] = "N";
+
                 return View(id);
             }
             else
