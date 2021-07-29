@@ -1,36 +1,47 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<div class="jumbotron">
-    <h1>GROUPY</h1>
-    <p class="lead">Credit Card shopping experience made so simple with a wide variety of categories you can imagine.</p>
-    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+
+<div id="themeSlider" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#themeSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#themeSlider" data-slide-to="1"></li>
+        <li data-target="#themeSlider" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="imgOverlay"></div>
+            <img style="height:400px;" src="https://i.guim.co.uk/img/media/2c19c3b2fcbb78358eb734c8cba2bfb02388df0a/0_92_1750_1050/master/1750.jpg?width=445&quality=45&auto=format&fit=max&dpr=2&s=253fee8b29eb5274ee433b788e34ede3" alt="First slide">
+            <div class="carousel-caption">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:400px;" src="https://th.bing.com/th/id/R.c8cae556e6b1791f07022e2e2885411b?rik=hlvC9LPPOx1jig&pid=ImgRaw" alt="Second slide">
+            <div class="carousel-caption">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:400px; width:400px;" src="https://th.bing.com/th/id/OIP.h57TswrkyeEWHqN_9iVa9AHaFj?pid=ImgDet&rs=1" alt="Third slide">
+            <div class="carousel-caption">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <a class="left carousel-control" href="#themeSlider" data-slide="prev">
+        <span class="fa fa-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#themeSlider" data-slide="next">
+        <span class="fa fa-chevron-right"></span>
+    </a>
+
+
 </div>
-<h3>Treding Items!</h3>
-<ul id="item-list">
-
-    @foreach (var item in Model)
-    {
-
-        <li>
-            <a href="@Url.Action("Details","Store",new { id = item.ItemId })">
-                <img alt="@item.Title" src="@item.ItemArtUrl" />
-                <br />
-
-                <span>@item.Title</span>
-            </a>
-
-            @String.Format("{0:F}", item.Price)$
-            <p class="button1">
-
-                @Html.ActionLink("Add to cart", "AddToCart",
-        "ShoppingCart", new { id = item.ItemId }, "")
-            </p>
-        </li>
-
-
-
-    }
-
-
-</ul>
