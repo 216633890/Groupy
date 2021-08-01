@@ -40,7 +40,6 @@ namespace Groupy.Controllers
                     order.OrderCountry = fraudCheck.GetCountry();
 
                     var cart = ShoppingCart.GetCart(this.HttpContext);
-
                     var scid = cart.GetCartId(this.HttpContext);
 
                     var itemIds = storeDB.Carts.Where(c => c.CartId == scid).ToList();
@@ -50,6 +49,7 @@ namespace Groupy.Controllers
                         if (Session["IsVerified"] != "Y")
                         {
                             Session["IsVerified"] = "Y";
+                            Session["AutoLogOff"] = "Y";
 
                             return RedirectToAction("AutoLogOff", "Account");
                         }
@@ -76,6 +76,7 @@ namespace Groupy.Controllers
             if (isValid)
             {
                 Session["IsVerified"] = "N";
+                Session["AutoLogOff"] = "N";
 
                 return View(id);
             }

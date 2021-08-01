@@ -14,10 +14,11 @@ namespace Groupy.Models
         public string GetCountry()
         {
             string c_code;
+            //String AccessKey = "O4VWL5QLCG";
             String AccessKey = "demo";
             //String UserIP = "2607:f1c0:100f:f000::2f4";
-            String UserIP = "102.67.158.120";
-            //String UserIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            //String UserIP = "102.67.158.120";
+            String UserIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (string.IsNullOrEmpty(UserIP))
             {
                 UserIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
