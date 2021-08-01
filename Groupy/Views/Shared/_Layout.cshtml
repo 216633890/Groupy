@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="logo">
-                    <h1><a href="#">Shopping Center </a></h1>
+                    <h1>@Html.ActionLink("Shopping Center", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</h1>
                     <p></p>
                 </div>
             </div>
@@ -48,11 +48,13 @@
                 <div class="nav-menus">
 
                     <ul class="nav nav-pills">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         <li>@Html.ActionLink("Store", "Index", "Store")</li>
-                        <li>@Html.ActionLink("StoreManager", "Index", "StoreManager")</li>
+                        @if (User.Identity.Name == "nipho@groupy.com" || User.Identity.Name == "mohau@groupy.com")
+                        {
+                            <li>@Html.ActionLink("StoreManager", "Index", "StoreManager")</li>
+                        }
                         <li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
                         @Html.Partial("_LoginPartial")
                     </ul>

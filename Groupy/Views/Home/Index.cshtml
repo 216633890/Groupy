@@ -43,6 +43,21 @@
         <span class="fa fa-chevron-right"></span>
     </a>
 
+</div>
+<h3>Treding Items!</h3>
+<ul id="item-list">
+
+    @foreach (var item in Model)
+    {
+
+        <li>
+            <a href="@Url.Action("Details","Store",new { id = item.ItemId })">
+                <img alt="@item.Title" src="@item.ItemArtUrl" />
+                <br />
+
+                <span>@item.Title</span>
+            </a>
+
             @String.Format("{0:F}", item.Price)
             <p class="button1">
 
@@ -56,4 +71,4 @@
     }
 
 
-</div>
+</ul>
